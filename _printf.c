@@ -1,4 +1,6 @@
 #include "main.h"
+#include <stdarg.h>
+#include <stddef.h>
 
 /**
  * _printf - a function That produces output according to format.
