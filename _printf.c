@@ -1,27 +1,60 @@
 #include "main.h"
+#include <stdarg.h>
+#include <stddef.h>
 
 /**
  * _printf - a function That produces output according to format.
- * @format: a character string
+ * @format: a character string with funtn specifier
  * Returns: The number of characters printed
  */
 
 int _printf(const char *format, ...)
 {
-	int printed_chars;
-	conver_t f_list[] = {
-		{"c", print_char},
-		{"s", print_string},
-		{"%", print_percent}
-	};
-	va_list list_arg;
+	va_list args;
+	int i = 0, j=0;
+	int count = 0;
+	char *str = NULL;
 
-	if (format == NULL)
-		return (-1);
+	va_start(args, format);
 
-	va_start(list_arg, format);
-	/*Calling parser function*/
-	printed_chars = parser(format, f_list, list_arg);
-	va_end(list_arg);
-	return (printed_chars);
+	while(format[i] != '\0')
+	{
+		if(format[i] != '%')
+		{
+			_putchar(format[i]);
+			count++;
+		}
+		else
+		{
+			if(format[i+1] == 'c')
+			{
+			_putchar(va_arg(args, int));
+			count++;
+			i++;
+			}
+		else if (format[i+1] == 's')
+		{
+			i++;
+			str = va_arg(args, char *);
+			j = 0;
+			while (str[j])
+			{
+			_putchar(str[j]);
+			count++;
+			j++;
+			}
+		}
+		else if (format[i+1] == '%')
+		{
+			i++;
+			_putchar('%');
+			count++;
+		}
+		}
+		i++;
+	}
+
+	va_end(args);
+
+	return (count);
 }
