@@ -1,7 +1,8 @@
 #include "main.h"
 #include <stdarg.h>
 #include <stddef.h>
-
+#include <stdio.h>
+#include <stdlib.h>
 /**
  * _printf - a function That produces output according to format.
  * @format: a character string with funtn specifier
@@ -11,28 +12,28 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-	int i = 0, j=0;
+	int i = 0, j = 0;
 	int count = 0;
 	char *str = NULL;
 
 	va_start(args, format);
 
-	while(format[i] != '\0')
+	while (format != NULL && format[i] != '\0')
 	{
-		if(format[i] != '%')
+		if (format[i] != '%')
 		{
 			_putchar(format[i]);
 			count++;
 		}
 		else
 		{
-			if(format[i+1] == 'c')
+			if (format[i+1] == 'c')
 			{
 			_putchar(va_arg(args, int));
 			count++;
 			i++;
 			}
-		else if (format[i+1] == 's')
+		else if (format[i + 1] == 's')
 		{
 			i++;
 			str = va_arg(args, char *);
@@ -44,7 +45,7 @@ int _printf(const char *format, ...)
 			j++;
 			}
 		}
-		else if (format[i+1] == '%')
+		else if (format[i + 1] == '%')
 		{
 			i++;
 			_putchar('%');
