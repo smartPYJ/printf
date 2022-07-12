@@ -8,21 +8,53 @@
 
 int _printf(const char *format, ...)
 {
-	int printed_chars;
-	conver_t f_list[] = {
-		{"c", print_char},
-		{"s", print_string},
-		{"%", print_percent},
-		{"d", print_integer},
-	};
-	va_list arg_list;
+	va_list args;
+	int i = 0, j=0;
+	int count = 0;
+	char *str = NULL;
 
-	if (format == NULL)
-		return (-1);
+	va_start(args, format);
 
-	va_start(arg_list, format);
-	/*Calling parser function*/
-	printed_chars = parser(format, f_list, arg_list);
-	va_end(arg_list);
-	return (printed_chars);
+	while(format[i] != '\0')
+	{
+		if(format[i] != '%')
+		{
+			_putchar(format[i]);
+			count++;
+		}
+		else
+		{
+			/* format[i]*/
+			if(format[i+1] == 'c')
+			{
+			_putchar(va_arg(args, int));
+			count++;
+			i++;
+			}
+		else if (format[i+1] == 's')
+		{
+			i++;
+			str = va_arg(args, char *);
+			j = 0;
+			while (str[j])
+			{
+			_putchar(str[j]);
+			count++;
+			j++;
+			}
+		}
+		else if (format[i+1] == '%')
+		{
+			i++;
+			_putchar('%');
+			count++;
+		}
+		}
+		//_putchar(format[i]);
+		i++;
+	}
+
+	va_end(args);
+
+	return (count);
 }
